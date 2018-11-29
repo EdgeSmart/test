@@ -23,13 +23,13 @@ deploy:
       - "test_linux_arm32v7"
       - "test_linux_amd64"
     skip_cleanup: true
-    draft: true
     on:
       tags: true
   - deploy:
     provider: script
     script:
-      - echo "helo "
+      - echo "hello "
       - echo "world"
+    skip_cleanup: true
     on:
       tags: true

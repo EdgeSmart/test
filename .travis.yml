@@ -27,8 +27,7 @@ deploy:
       tags: true
   - deploy:
     provider: script
-    script:
-      - echo "hello world"
+    script: bash docker/deploy.sh
     skip_cleanup: true
     on:
       tags: true

@@ -27,7 +27,7 @@ before_script:
   - go test
 
 script:
-  - $(echo $COMPILE_OPTION) go build -v -o $FILE_NAME
+  - $COMPILE_OPTION go build -v -o $FILE_NAME
   - ls -al
 
 before_deploy:

@@ -9,10 +9,16 @@ services:
   - docker
 
 env:
-  - LINUX_ARM32V7_FILE_NAME="test_linux_arm32v7"
-  - LINUX_ARM32V7_IMAGE_NAME=""
-  - LINUX_AMD64_FILE_NAME="test_linux_amd64"
-  - LINUX_AMD64_IMAGE_NAME=""
+  - global:
+    - BIN_NAME="test"
+    - IMAGE_NAME="test"
+  - matrix:
+    - BIN_SUFFIX \
+      BIN_SUFFIX="arm32v7" \
+      COMPILE_OPTION="CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7"
+    - GOOS="linux" \
+      BIN_SUFFIX="amd64" \
+      COMPILE_OPTION="CGO_ENABLED=0 GOOS=linux GOARCH=amd64"
 
 before_install:
   - go version
@@ -20,13 +26,13 @@ before_install:
 install:
   - go get -t -v ./...
 
-script:
+before_script:
   - go test
-  - CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -v -o $LINUX_ARM32V7_FILE_NAME
-  - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o $LINUX_AMD64_FILE_NAME
+
+script:
+  - $($COMPILE_OPTION) go build -v -o ${BIN_NAME}"_"${GOOS}"_"${BIN_SUFFIX}
 
 before_deploy:
-  - LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
   - env
 
 deploy:

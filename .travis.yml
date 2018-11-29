@@ -1,0 +1,25 @@
+dist: trusty
+
+language: go
+
+go:
+  - master
+
+install:
+  - go get -t -v ./...
+
+script:
+  - go test
+  - CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -v -o test_linux_arm32v7
+  - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o test_linux_amd64
+
+deploy:
+  provider: releases
+  api_key: "$GITHUB_API_KEY"
+  file:
+    - "test_linux_arm32v7"
+    - "test_linux_amd64"
+  skip_cleanup: true
+  draft: true
+  on:
+    tags: true

@@ -10,12 +10,10 @@ services:
 
 env:
   global:
-    - BIN_NAME=test
-    - IMAGE_NAME=test
-    - CGO_ENABLED=0
-  matrix:
-    - BIN_SUFFIX=arm32v7 GOOS=linux GOARCH=arm GOARM=7
-    - BIN_SUFFIX=amd64 GOOS=linux GOARCH=amd64
+    - LINUX_ARM32V7_FILE_NAME="test_linux_arm32v7"
+    - LINUX_ARM32V7_IMAGE_NAME=""
+    - LINUX_AMD64_FILE_NAME="test_linux_amd64"
+    - LINUX_AMD64_IMAGE_NAME=""
 
 before_install:
   - go version
@@ -24,12 +22,11 @@ install:
   - go get -t -v ./...
 
 before_script:
-  - export FILE_NAME="${BIN_NAME}_${GOOS}_${BIN_SUFFIX}"
   - go test
 
 script:
-  -  go build -v -o $FILE_NAME
-  - ls -al
+  - CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -v -o $LINUX_ARM32V7_FILE_NAME
+  - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o $LINUX_AMD64_FILE_NAME
 
 before_deploy:
   - env
@@ -37,7 +34,9 @@ before_deploy:
 deploy:
   - provider: releases
     api_key: "$GITHUB_API_KEY"
-    file: $FILE_NAME
+    file:
+      - $LINUX_ARM32V7_FILE_NAME
+      - $LINUX_AMD64_FILE_NAME
     skip_cleanup: true
     on:
       tags: true

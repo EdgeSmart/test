@@ -1,0 +1,4 @@
+FROM scratch
+ADD test_linux_arm32v7 /
+ENTRYPOINT ["/test_linux_arm32v7"]
+EXPOSE 8080

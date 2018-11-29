@@ -24,7 +24,7 @@ install:
   - go get -t -v ./...
 
 before_script:
-  - export FILE_NAME=${BIN_NAME}"_"${GOOS}"_"${BIN_SUFFIX}
+  - export FILE_NAME="${BIN_NAME}_${GOOS}_${BIN_SUFFIX}"
   - go test
 
 script:

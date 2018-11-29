@@ -9,10 +9,10 @@ services:
   - docker
 
 env:
-  - global:
+  global:
     - BIN_NAME="test"
     - IMAGE_NAME="test"
-  - matrix:
+  matrix:
     - GOOS="linux" BIN_SUFFIX="arm32v7" COMPILE_OPTION="CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7"
     - GOOS="linux" BIN_SUFFIX="amd64" COMPILE_OPTION="CGO_ENABLED=0 GOOS=linux GOARCH=amd64"
 
@@ -27,6 +27,7 @@ before_script:
 
 script:
   - $($COMPILE_OPTION) go build -v -o ${BIN_NAME}"_"${GOOS}"_"${BIN_SUFFIX}
+  - ls -al
 
 before_deploy:
   - env

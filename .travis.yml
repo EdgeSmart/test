@@ -23,10 +23,11 @@ install:
   - go get -t -v ./...
 
 before_script:
+  - export FILE_NAME=${BIN_NAME}"_"${GOOS}"_"${BIN_SUFFIX}
   - go test
 
 script:
-  - $COMPILE_OPTION go build -v -o ${BIN_NAME}"_"${GOOS}"_"${BIN_SUFFIX}
+  - $(echo $COMPILE_OPTION) go build -v -o $FILE_NAME
   - ls -al
 
 before_deploy:
@@ -35,9 +36,7 @@ before_deploy:
 deploy:
   - provider: releases
     api_key: "$GITHUB_API_KEY"
-    file:
-      - $LINUX_ARM32V7_FILE_NAME
-      - $LINUX_AMD64_FILE_NAME
+    file: $FILE_NAME
     skip_cleanup: true
     on:
       tags: true

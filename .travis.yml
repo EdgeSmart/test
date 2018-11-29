@@ -13,7 +13,7 @@ env:
     - BIN_NAME="test"
     - IMAGE_NAME="test"
   - matrix:
-    - BIN_SUFFIX \
+    - GOOS="linux" \
       BIN_SUFFIX="arm32v7" \
       COMPILE_OPTION="CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7"
     - GOOS="linux" \

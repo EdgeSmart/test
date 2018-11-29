@@ -27,9 +27,7 @@ deploy:
       tags: true
   - deploy:
     provider: script
-    script:
-      - echo "hello "
-      - echo "world"
+    script: echo "hello world"
     skip_cleanup: true
     on:
       tags: true

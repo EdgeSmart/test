@@ -26,7 +26,7 @@ before_script:
   - go test
 
 script:
-  - $($COMPILE_OPTION) go build -v -o ${BIN_NAME}"_"${GOOS}"_"${BIN_SUFFIX}
+  - $COMPILE_OPTION go build -v -o ${BIN_NAME}"_"${GOOS}"_"${BIN_SUFFIX}
   - ls -al
 
 before_deploy:

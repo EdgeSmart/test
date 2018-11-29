@@ -10,11 +10,12 @@ services:
 
 env:
   global:
-    - BIN_NAME="test"
-    - IMAGE_NAME="test"
+    - BIN_NAME=test
+    - IMAGE_NAME=test
+    - CGO_ENABLED=0
   matrix:
-    - GOOS="linux" BIN_SUFFIX="arm32v7" COMPILE_OPTION="CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7"
-    - GOOS="linux" BIN_SUFFIX="amd64" COMPILE_OPTION="CGO_ENABLED=0 GOOS=linux GOARCH=amd64"
+    - BIN_SUFFIX=arm32v7 GOOS=linux GOARCH=arm GOARM=7
+    - BIN_SUFFIX=amd64 GOOS=linux GOARCH=amd64
 
 before_install:
   - go version
@@ -27,7 +28,7 @@ before_script:
   - go test
 
 script:
-  - $COMPILE_OPTION go build -v -o $FILE_NAME
+  -  go build -v -o $FILE_NAME
   - ls -al
 
 before_deploy:

@@ -22,7 +22,7 @@ install:
   - go get -t -v ./...
 
 before_script:
-  - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_USERNAME" "$DOCKER_HUB_PATH" --password-stdin
+  - echo "$DOCKER_HUB_PASSWORD" | docker login -username="$DOCKER_USERNAME" "$DOCKER_HUB_PATH" --password-stdin
   - go test
 
 script:
